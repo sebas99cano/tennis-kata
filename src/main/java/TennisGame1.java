@@ -23,7 +23,7 @@ public class TennisGame1 implements TennisGame {
             equalPoints();
         } else if (player1.getScore() >= 4 || player2.getScore() >= 4) {
             advantageValidate();
-        } else {
+        }else {
             calculatePoints();
         }
         return score;
