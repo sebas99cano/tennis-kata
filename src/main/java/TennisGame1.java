@@ -1,4 +1,3 @@
-
 public class TennisGame1 implements TennisGame {
 
     private final Player player1;
@@ -31,23 +30,12 @@ public class TennisGame1 implements TennisGame {
     }
 
     private void equalPoints() {
-        switch (player1.getScore()) {
-            case 0:
-                score = "Love-All";
-                break;
-            case 1:
-                score = "Fifteen-All";
-                break;
-            case 2:
-                score = "Thirty-All";
-                break;
-            default:
-                score = "Deuce";
-                break;
-        }
+        String[] options = {"Love-All", "Fifteen-All", "Thirty-All"};
+        score = (player1.getScore() > 2) ? "Deuce" : options[player1.getScore()];
     }
 
     private void calculatePoints() {
+        String[] options = {"Love", "Fifteen", "Thirty", "Forty"};
         int tempScore;
         for (int i = 1; i < 3; i++) {
             if (i == 1) tempScore = player1.getScore();
@@ -55,30 +43,12 @@ public class TennisGame1 implements TennisGame {
                 score += "-";
                 tempScore = player2.getScore();
             }
-            pointType(tempScore);
-        }
-    }
-
-    private void pointType(int tempScore) {
-        switch (tempScore) {
-            case 0:
-                score += "Love";
-                break;
-            case 1:
-                score += "Fifteen";
-                break;
-            case 2:
-                score += "Thirty";
-                break;
-            case 3:
-                score += "Forty";
-                break;
+            score += options[tempScore];
         }
     }
 
     private void advantageValidate() {
         int minusResult = player1.getScore() - player2.getScore();
-
         if (minusResult == 1) {
             score = "Advantage player1";
         } else if (minusResult == -1) {

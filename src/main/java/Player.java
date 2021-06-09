@@ -13,6 +13,7 @@ public class Player {
     public Integer getScore(){
         return this.score;
     }
+
     public String getName(){
         return this.name;
     }
