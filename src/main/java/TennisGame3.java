@@ -1,36 +1,55 @@
-
 public class TennisGame3 implements TennisGame {
-    
-    private int p2;
-    private int p1;
-    private String p1N;
-    private String p2N;
 
-    public TennisGame3(String p1N, String p2N) {
-        this.p1N = p1N;
-        this.p2N = p2N;
+    private final Player player1;
+    private final Player player2;
+
+
+    public TennisGame3(String namePlayer1, String namePlayer2) {
+        this.player1 = new Player(namePlayer1);
+        this.player2 = new Player(namePlayer2);
     }
 
     public String getScore() {
-        String s;
-        if (p1 < 4 && p2 < 4 && !(p1 + p2 == 6)) {
-            String[] p = new String[]{"Love", "Fifteen", "Thirty", "Forty"}; 
-            s = p[p1];
-            return (p1 == p2) ? s + "-All" : s + "-" + p[p2];
-        } else {
-            if (p1 == p2)
-                return "Deuce";
-            s = p1 > p2 ? p1N : p2N;
-            return ((p1-p2)*(p1-p2) == 1) ? "Advantage " + s : "Win for " + s;
+        if (isScoreIsLessThan4() && isSumScoreDifferentFrom6()) {
+            return case1();
         }
-    }
-    
-    public void wonPoint(String playerName) {
-        if (playerName == "player1")
-            this.p1 += 1;
-        else
-            this.p2 += 1;
-        
+        return case2();
     }
 
+    private boolean isSumScoreDifferentFrom6() {
+        return player1.getScore() + player2.getScore() != 6;
+    }
+
+    private boolean isScoreIsLessThan4() {
+        return player1.getScore() < 4 && player2.getScore() < 4;
+    }
+
+    private String case1() {
+        String[] p = new String[]{"Love", "Fifteen", "Thirty", "Forty"};
+        String s = p[player1.getScore()];
+        return (player1.getScore() == player2.getScore()) ? s + "-All" : s + "-" + p[player2.getScore()];
+    }
+
+    private String case2() {
+        if (player1.getScore() == player2.getScore()){
+            return "Deuce";
+        }
+        return advantageOrWin();
+    }
+
+    private String advantageOrWin() {
+        String s = choosePlayer();
+        return ((player1.getScore()-player2.getScore())*(player1.getScore()-player2.getScore()) == 1) ? "Advantage " + s : "Win for " + s;
+    }
+
+    private String choosePlayer() {
+        return player1.getScore() > player2.getScore() ? player1.getName() : player2.getName();
+    }
+
+    public void wonPoint(String playerName) {
+        if (playerName.equals(player1.getName()))
+            player1.addPoint();
+        else
+            player2.addPoint();
+    }
 }
